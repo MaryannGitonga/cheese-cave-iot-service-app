@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+      "@azure/event-hubs": "^5.6.0",
+      "azure-iothub": "^1.12.2",
+      "chalk": "^2.4.2",
+      "dotenv": "^10.0.0"
+    }
+  }
+  
