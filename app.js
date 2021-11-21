@@ -20,7 +20,9 @@ const Registry = require('azure-iothub').Registry;
 const client = Client.fromConnectionString(connectionString);
 
 // The sample connects to an IoT hub's Event Hubs-compatible endpoint to read messages sent from a device.
-const { EventHubClient, EventPosition } = require('@azure/event-hubs');
+const EventHubClient = require('@azure/event-hubs').Client;
+const EventPosition = require('@azure/event-hubs').EventPosition;
+// const { EventHubClient, EventPosition } = require('@azure/event-hubs');
 
 let eventHubClient;
 
@@ -68,3 +70,23 @@ EventHubClient.createFromIotHubConnectionString(connectionString).then(function 
         return eventHubClient.receive(id, printMessage, printError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
     });
 }).catch(printError);
+
+const methodParams = {
+    methodName: 'SetFanState',
+    payload: 'on',
+    responseTimeoutInSeconds: 30
+};
+
+function sendDirectMethod() {
+    client.invokeDeviceMethod(deviceId, method, function (err, result) {
+        if (err) {
+            redMessage('Failed to invoke method \'' + methodParams.methodName + '\': ' + err.message);
+        } else {
+            greenMessage('Response from ' + methodParams.methodName + ' on ' + deviceId + ':');
+            greenMessage(JSON.stringify(result, null, 2));
+        }
+    });
+}
+
+// Send a direct method to turn the fan on
+sendDirectMethod
