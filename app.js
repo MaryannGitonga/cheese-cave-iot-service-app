@@ -89,4 +89,5 @@ function sendDirectMethod() {
 }
 
 // Send a direct method to turn the fan on
-sendDirectMethod
+sendDirectMethod();
+
